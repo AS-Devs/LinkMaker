@@ -16,15 +16,6 @@
 -->
 
 <resources>
-    <string name="app_name">DirectShare</string>
-    <string name="intro_message">
-        <![CDATA[
-        
-            
-This sample demonstrates how to provide the Direct Share feature. The app shows some options
-directly in the list of share intent candidates.
-            
-        
-        ]]>
-    </string>
+    <string name="app_name">Link Maker</string>
+
 </resources>

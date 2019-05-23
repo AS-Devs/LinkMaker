@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -25,7 +25,10 @@
         android:background="?android:attr/colorPrimary"
         android:elevation="4dp"
         android:minHeight="?android:attr/actionBarSize"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
         android:popupTheme="@android:style/ThemeOverlay.Material.Light"
+        android:textAlignment="center"
         android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar" />
 
     <TextView
@@ -41,14 +44,33 @@
         android:background="@android:color/darker_gray" />
 
     <EditText
+        android:id="@+id/affiliateId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:allowUndo="true"
+        android:autoLink="web|phone"
+        android:hint="@string/affiliateId"
+        android:importantForAutofill="yesExcludeDescendants"
+        android:inputType="textUri"
+        tools:targetApi="o"
+        android:autofillHints="affid=svchost96" />
+
+    <EditText
         android:id="@+id/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:allowUndo="true"
+        android:autoLink="web|phone"
         android:hint="@string/text_to_share"
-        android:text="@string/hello" />
+        android:importantForAutofill="no"
+        android:inputType="textUri"
+        tools:targetApi="o" />
 
     <Button
         android:id="@+id/share"

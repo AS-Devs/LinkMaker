@@ -19,10 +19,8 @@
     <!-- MainActivity -->
 
     <string name="explanation">
-        This app demonstrates how to implement Direct Share. Use some other app and share a text.
-        For your convenience, you can also use the input below to share the text.
+    This app helps affiliate members to paste the product link to generate their own Affiliate Links and directly share to any app to the customer.\nIt only support <b>Flipkart Affiliate Members for now</b>
     </string>
-    <string name="hello">Hello!</string>
     <string name="share">Share</string>
     <string name="send_intent_title">Send a message via:</string>
 
@@ -34,6 +32,7 @@
     <string name="body">Body:</string>
     <string name="hint_body">Edit your message.</string>
     <string name="message_sent">Sent a message \"%1$s\" to %2$s.</string>
-    <string name="text_to_share">Text to share</string>
+    <string name="text_to_share">Paste Any Flipkart Link</string>
+    <string name="affiliateId">Paste Your Affiliate Id</string>
 
 </resources>
