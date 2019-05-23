@@ -45,18 +45,18 @@
 
     <EditText
         android:id="@+id/affiliateId"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:allowUndo="true"
         android:autoLink="web|phone"
+        android:autofillHints="affid=svchost96"
         android:hint="@string/affiliateId"
         android:importantForAutofill="yesExcludeDescendants"
         android:inputType="textUri"
-        tools:targetApi="o"
-        android:autofillHints="affid=svchost96" />
+        tools:targetApi="o" />
 
     <EditText
         android:id="@+id/body"
