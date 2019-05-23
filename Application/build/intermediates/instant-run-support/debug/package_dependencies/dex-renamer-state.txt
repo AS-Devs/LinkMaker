@@ -1,4 +1,0 @@
-#Thu May 23 13:35:19 IST 2019
-base.0=/home/indrajit/Desktop/LinkMaker/Application/build/intermediates/transforms/dexMerger/debug/10
-path.0=classes.dex
-renamed.0=classes.dex

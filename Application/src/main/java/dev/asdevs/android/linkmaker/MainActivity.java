@@ -22,7 +22,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toolbar;
-
+import android.widget.Toast;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 /**
  * Provides the landing screen of this sample. There is nothing particularly interesting here. All
  * the codes related to the Direct Share feature are in {@link SampleChooserTargetService}.
@@ -30,6 +33,9 @@ import android.widget.Toolbar;
 public class MainActivity extends Activity {
 
     private EditText mEditBody;
+    public EditText mEditAffiliateId;
+    private String myCode = "affid=svchost96";
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         setActionBar((Toolbar) findViewById(R.id.toolbar));
         mEditBody = (EditText) findViewById(R.id.body);
+        mEditAffiliateId = (EditText) findViewById(R.id.affiliateId);
         findViewById(R.id.share).setOnClickListener(mOnClickListener);
+        mAdView = findViewById(R.id.adViewPage1);
+        MobileAds.initialize(this,"ca-app-pub-3774806131455333~4164055925");
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -45,11 +56,69 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.share:
-                    share();
-                    break;
+                    if(mEditBody.getText().length() >0){
+                        if(mEditBody.getText().toString().contains("affid=")){
+                            Toast.makeText(MainActivity.this, "It's Already an Affiliate Link", Toast.LENGTH_LONG).show();
+                            mEditBody.getText().clear();
+                            break;
+                        }else {
+                            genrateLink();
+                            break;
+                        }
+                    }else{
+                        Toast.makeText(MainActivity.this, "This Field Can't be Empty", Toast.LENGTH_LONG).show();
+                        break;
+                    }
+
+
             }
         }
     };
+
+    /**
+     * Link genrator Function
+     */
+    private void genrateLink() {
+        String newLink;
+        if( mEditBody.getText().toString().contains("http://dl.flipkart.com/dl/") || mEditBody.getText().toString().contains("https://www.flipkart.com/") ){
+            if (mEditBody.getText().toString().contains("&cmpid=product.share.pp")){
+                newLink = mEditBody.getText().toString().replace("&cmpid=product.share.pp", "");
+                mEditBody.setText(newLink);
+                if(mEditAffiliateId.getText().length() > 0) {
+                    mEditBody.getText().append("&affid=" + mEditAffiliateId.getText().toString());
+                    share();
+                }else{
+                    mEditBody.getText().append("&" + myCode);
+                    share();
+                }
+            }else{
+                newLink = mEditBody.getText().toString().replace("https://www.flipkart.com/", "http://dl.flipkart.com/dl/");
+                mEditBody.setText(newLink);
+                if(mEditBody.getText().toString().contains("?")){
+                    if(mEditAffiliateId.getText().length() > 0) {
+                        mEditBody.getText().append("&affid=" + mEditAffiliateId.getText().toString());
+                        share();
+                    }else{
+                        mEditBody.getText().append("&" + myCode);
+                        share();
+                    }
+
+                }else{
+                    if(mEditAffiliateId.getText().length() > 0) {
+                        mEditBody.getText().append("?affid=" + mEditAffiliateId.getText().toString());
+                        share();
+                    }else{
+                        mEditBody.getText().append("?" + myCode);
+                        share();
+                    }
+                }
+            }
+
+        }else {
+            Toast.makeText(MainActivity.this, "It's not a valid Flipkart URL", Toast.LENGTH_LONG).show();
+            mEditBody.getText().clear();
+        }
+    }
 
     /**
      * Emits a sample share {@link Intent}.

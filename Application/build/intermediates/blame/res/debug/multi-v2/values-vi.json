@@ -4,6 +4,23 @@
             "outputFile": "/home/indrajit/Desktop/LinkMaker/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values-vi/values-vi.xml",
             "map": [
                 {
+                    "source": "/home/indrajit/.gradle/caches/transforms-1/files-1.1/play-services-ads-17.2.1.aar/8adc92b7cc8b823f274a8a9254452ab1/res/values-vi/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "199,268,381,448,513,587,681",
+                        "endColumns": "68,112,66,64,73,93,77",
+                        "endOffsets": "267,380,447,512,586,680,758"
+                    },
+                    "to": {
+                        "startLines": "20,21,22,23,24,25,26",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "2069,2142,2259,2330,2399,2477,2575",
+                        "endColumns": "72,116,70,68,77,97,81",
+                        "endOffsets": "2137,2254,2325,2394,2472,2570,2652"
+                    }
+                },
+                {
                     "source": "/home/indrajit/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/99d90fc1833b7b3f99369b4ccf85c1f2/res/values-vi/values-vi.xml",
                     "from": {
                         "startLines": "2",
@@ -13,11 +30,11 @@
                         "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "20",
+                        "startLines": "28",
                         "startColumns": "4",
-                        "startOffsets": "1958",
+                        "startOffsets": "2741",
                         "endColumns": "100",
-                        "endOffsets": "2054"
+                        "endOffsets": "2837"
                     }
                 },
                 {
@@ -28,6 +45,30 @@
                         "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,1874",
                         "endColumns": "113,107,108,83,102,118,76,76,83,103,108,100,104,113,104,156,98,83",
                         "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,1953"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,27",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,2657",
+                        "endColumns": "113,107,108,83,102,118,76,76,83,103,108,100,104,113,104,156,98,83",
+                        "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,2736"
+                    }
+                },
+                {
+                    "source": "/home/indrajit/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.0.1.aar/cf2faf102c3aa5d7ed523b85ea6111ff/res/values-vi/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "194",
+                        "endOffsets": "441"
+                    },
+                    "to": {
+                        "startLines": "19",
+                        "startColumns": "4",
+                        "startOffsets": "1874",
+                        "endColumns": "194",
+                        "endOffsets": "2064"
                     }
                 }
             ]
