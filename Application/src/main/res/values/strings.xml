@@ -34,5 +34,6 @@
     <string name="message_sent">Sent a message \"%1$s\" to %2$s.</string>
     <string name="text_to_share">Paste Any Flipkart Link</string>
     <string name="affiliateId">Paste Your Affiliate Id</string>
+    <string name="clear">Clear</string>
 
 </resources>

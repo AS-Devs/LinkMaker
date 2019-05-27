@@ -45,11 +45,21 @@ public class MainActivity extends Activity {
         mEditBody = (EditText) findViewById(R.id.body);
         mEditAffiliateId = (EditText) findViewById(R.id.affiliateId);
         findViewById(R.id.share).setOnClickListener(mOnClickListener);
+        findViewById(R.id.clrbtn1).setOnClickListener(mOnClickClear);
         mAdView = findViewById(R.id.adViewPage1);
         MobileAds.initialize(this,"ca-app-pub-3774806131455333~4164055925");
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }
+
+    private View.OnClickListener mOnClickClear = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mEditBody.getText().clear();
+            mEditAffiliateId.getText().clear();
+
+        }
+    };
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override

@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="685dp"
+        android:layout_height="668dp"
         android:orientation="vertical">
 
         <Toolbar
@@ -78,14 +78,32 @@
             android:inputType="textUri"
             tools:targetApi="o" />
 
-        <Button
-            android:id="@+id/share"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/share" />
+            android:gravity="end"
+            style="?android:buttonBarStyle"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/clrbtn1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="?android:buttonBarButtonStyle"
+                android:text="@string/clear" />
+
+            <Button
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:baselineAligned="false"
+                style="?android:buttonBarButtonStyle"
+                android:text="@string/share" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
