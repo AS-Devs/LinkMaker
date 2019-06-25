@@ -28,7 +28,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 /**
  * Provides the landing screen of this sample. There is nothing particularly interesting here. All
- * the codes related to the Direct Share feature are in {@link SampleChooserTargetService}.
+ * the codes related to the Direct Share feature are in {@link}.
  */
 public class MainActivity extends Activity {
 
@@ -42,14 +42,30 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         setActionBar((Toolbar) findViewById(R.id.toolbar));
-        mEditBody = (EditText) findViewById(R.id.body);
-        mEditAffiliateId = (EditText) findViewById(R.id.affiliateId);
+        mEditBody = findViewById(R.id.body);
+        mEditAffiliateId = findViewById(R.id.affiliateId);
         findViewById(R.id.share).setOnClickListener(mOnClickListener);
         findViewById(R.id.clrbtn1).setOnClickListener(mOnClickClear);
         mAdView = findViewById(R.id.adViewPage1);
         MobileAds.initialize(this,"ca-app-pub-3774806131455333~4164055925");
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        // Get value from intent if available
+        Intent receivedIntent = getIntent();
+        String receivedAction = receivedIntent.getAction();
+        String receivedType = receivedIntent.getType();
+        if(receivedAction.equals(Intent.ACTION_SEND)) {
+            if(receivedType.startsWith("text/")){
+                String receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT);
+                if(receivedText.contains("flipkart.com")){
+                    mEditBody.setText(receivedText);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Invalid Link! Try a valid flipkart link.", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     private View.OnClickListener mOnClickClear = new View.OnClickListener() {
@@ -95,10 +111,10 @@ public class MainActivity extends Activity {
                 newLink = mEditBody.getText().toString().replace("&cmpid=product.share.pp", "");
                 mEditBody.setText(newLink);
                 if(mEditAffiliateId.getText().length() > 0) {
-                    mEditBody.getText().append("&affid=" + mEditAffiliateId.getText().toString());
+                    mEditBody.getText().append("&affid=").append(mEditAffiliateId.getText().toString());
                     share();
                 }else{
-                    mEditBody.getText().append("&" + myCode);
+                    mEditBody.getText().append("&").append(myCode);
                     share();
                 }
             }else{
@@ -106,19 +122,19 @@ public class MainActivity extends Activity {
                 mEditBody.setText(newLink);
                 if(mEditBody.getText().toString().contains("?")){
                     if(mEditAffiliateId.getText().length() > 0) {
-                        mEditBody.getText().append("&affid=" + mEditAffiliateId.getText().toString());
+                        mEditBody.getText().append("&affid=").append(mEditAffiliateId.getText().toString());
                         share();
                     }else{
-                        mEditBody.getText().append("&" + myCode);
+                        mEditBody.getText().append("&").append(myCode);
                         share();
                     }
 
                 }else{
                     if(mEditAffiliateId.getText().length() > 0) {
-                        mEditBody.getText().append("?affid=" + mEditAffiliateId.getText().toString());
+                        mEditBody.getText().append("?affid=").append(mEditAffiliateId.getText().toString());
                         share();
                     }else{
-                        mEditBody.getText().append("?" + myCode);
+                        mEditBody.getText().append("?").append(myCode);
                         share();
                     }
                 }

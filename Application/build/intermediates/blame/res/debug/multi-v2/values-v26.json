@@ -1,29 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/indrajit/Desktop/LinkMaker/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v26/values-v26.xml",
+            "outputFile": "D:\\AndroidSdk\\LinkMaker\\Application\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v26\\values-v26.xml",
             "map": [
                 {
-                    "source": "/home/indrajit/.gradle/caches/transforms-1/files-1.1/design-27.0.2.aar/fdb7f19004eb70cb2299c0f26e4b4509/res/values-v26/values-v26.xml",
-                    "from": {
-                        "startLines": "2,6",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,299",
-                        "endLines": "5,6",
-                        "endColumns": "12,96",
-                        "endOffsets": "294,391"
-                    },
-                    "to": {
-                        "startLines": "16,21",
-                        "startColumns": "4,4",
-                        "startOffsets": "896,1233",
-                        "endLines": "19,21",
-                        "endColumns": "12,96",
-                        "endOffsets": "1135,1325"
-                    }
-                },
-                {
-                    "source": "/home/indrajit/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5c5eab6e19bdcd17ec6aaec9d32a159c/res/values-v26/values-v26.xml",
+                    "source": "C:\\Users\\ayant\\.gradle\\caches\\transforms-2\\files-2.1\\64c7ba2f1f8d6e607ea792c88a740e53\\res\\values-v26\\values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",
@@ -31,14 +12,6 @@
                         "endLines": "2,3,7,11,15,16",
                         "endColumns": "74,86,12,12,12,92",
                         "endOffsets": "125,212,426,652,891,984"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,8,12,20",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "55,130,217,431,657,1140",
-                        "endLines": "2,3,7,11,15,20",
-                        "endColumns": "74,86,12,12,12,92",
-                        "endOffsets": "125,212,426,652,891,1228"
                     }
                 }
             ]
