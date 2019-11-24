@@ -76,9 +76,11 @@ class MainActivity : Activity() {
         val receivedAction = receivedIntent.action
         val receivedType = receivedIntent.type
         if (receivedAction == Intent.ACTION_SEND) {
-            if (receivedType!!.startsWith("text/")) {
-                val receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT)
-                if ("flipkart.com" in receivedText) mEditBody!!.setText(receivedText) else Toast.makeText(applicationContext, "Invalid Link! Try a valid flipkart link.", Toast.LENGTH_LONG).show()
+            when {
+                receivedType!!.startsWith("text/") -> {
+                    val receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT)
+                    if ("flipkart.com" in receivedText) mEditBody!!.setText(receivedText) else Toast.makeText(applicationContext, "Invalid Link! Try a valid flipkart link.", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
