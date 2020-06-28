@@ -17,13 +17,13 @@
 <resources>
 
     <style name="DirectShareTheme" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimary">@color/accent</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
         <item name="android:colorAccent">@color/accent</item>
     </style>
 
     <style name="DirectShareDialogTheme" parent="android:Theme.Material.Light.Dialog">
-        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimary">@color/accent</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
         <item name="android:colorAccent">@color/accent</item>
     </style>

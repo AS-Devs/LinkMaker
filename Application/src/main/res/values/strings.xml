@@ -19,7 +19,7 @@
     <!-- MainActivity -->
 
     <string name="explanation">
-    This app helps affiliate members to paste the product link to generate their own Affiliate Links and directly share to any app to the customer.\nIt only support <b>Flipkart Affiliate Members for now</b>
+    This app helps affiliate members to paste the product link to generate their own Affiliate Links and directly share to any app to the customer.\n\nIt only support <b>Flipkart Affiliate Members for now</b>
     </string>
     <string name="share">Share</string>
     <string name="send_intent_title">Send a message via:</string>
@@ -35,5 +35,6 @@
     <string name="text_to_share">Paste Any Flipkart Link</string>
     <string name="affiliateId">Paste Your Affiliate Id</string>
     <string name="clear">Clear</string>
+    <string name="save">Save it for later</string>
 
 </resources>

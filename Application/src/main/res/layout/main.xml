@@ -13,104 +13,151 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MainScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/bg">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="668dp"
-        android:orientation="vertical">
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/accent"
+        android:elevation="4dp"
+        android:minHeight="?android:attr/actionBarSize"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:popupTheme="@android:style/ThemeOverlay.Material.Light"
+        android:textAlignment="center"
+        android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
+        android:visibility="visible"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.0"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        ads:layout_constraintVertical_bias="0.0"
+        tools:visibility="visible" />
 
-        <Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/colorPrimary"
-            android:elevation="4dp"
-            android:minHeight="?android:attr/actionBarSize"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            android:popupTheme="@android:style/ThemeOverlay.Material.Light"
-            android:textAlignment="center"
-            android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/explanation"
-            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <EditText
-            android:id="@+id/affiliateId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:allowUndo="true"
-            android:autoLink="web|phone"
-            android:autofillHints="affid=svchost96"
-            android:hint="@string/affiliateId"
-            android:importantForAutofill="yesExcludeDescendants"
-            android:inputType="textUri"
-            tools:targetApi="o" />
-
-        <EditText
-            android:id="@+id/body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:allowUndo="true"
-            android:autoLink="web|phone"
-            android:hint="@string/text_to_share"
-            android:importantForAutofill="no"
-            android:inputType="textUri"
-            tools:targetApi="o" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            style="?android:buttonBarStyle"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/clrbtn1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                style="?android:buttonBarButtonStyle"
-                android:text="@string/clear" />
-
-            <Button
-                android:id="@+id/share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:baselineAligned="false"
-                style="?android:buttonBarButtonStyle"
-                android:text="@string/share" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adViewPage1"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3774806131455333/5066074058" />
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/explanation"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1"
+        ads:layout_constraintTop_toBottomOf="@+id/toolbar"
+        ads:layout_constraintHorizontal_bias="0.0" />
 
-</LinearLayout>
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="33dp"
+        android:background="@color/divider"
+        ads:layout_constrainedHeight="false"
+        ads:layout_constrainedWidth="false"
+        ads:layout_constraintBottom_toTopOf="@+id/saveAffid"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.0"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/affiliateId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="28dp"
+        android:allowUndo="true"
+        android:autoLink="web|phone"
+        android:autofillHints="affid=svchost96"
+        android:hint="@string/affiliateId"
+        android:importantForAutofill="yesExcludeDescendants"
+        android:inputType="textUri"
+        ads:layout_constraintBottom_toTopOf="@+id/body"
+        ads:layout_constraintEnd_toStartOf="@+id/saveAffid"
+        ads:layout_constraintStart_toStartOf="parent"
+        tools:targetApi="o" />
+
+    <Button
+        android:id="@+id/saveAffid"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="@string/save"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.5"
+        ads:layout_constraintStart_toEndOf="@+id/affiliateId"
+        ads:layout_constraintBottom_toTopOf="@+id/body" />
+
+    <EditText
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="274dp"
+        android:layout_marginEnd="16dp"
+        android:allowUndo="true"
+        android:autoLink="web|phone"
+        android:hint="@string/text_to_share"
+        android:importantForAutofill="no"
+        android:inputType="textUri"
+        ads:layout_constraintBottom_toTopOf="@+id/share"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.0"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        ads:layout_constraintVertical_bias="0.149"
+        tools:targetApi="o" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewPage1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:isScrollContainer="false"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3774806131455333/5066074058"
+        ads:layout_constrainedWidth="false"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="1.0"
+        ads:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/clrbtn1"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/clear"
+        android:textColor="@color/accent"
+        ads:layout_constraintEnd_toStartOf="@+id/share"
+        ads:layout_constraintTop_toBottomOf="@+id/body" />
+
+    <Button
+        android:id="@+id/share"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:baselineAligned="false"
+        android:text="@string/share"
+        android:textColor="@color/accent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/body" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
