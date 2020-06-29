@@ -37,4 +37,7 @@
     <string name="clear">Clear</string>
     <string name="save">Save it for later</string>
 
+    <!-- Shared Preferences -->
+    <string name="affiliate_id">affiliate_id</string>
+
 </resources>
