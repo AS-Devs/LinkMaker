@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/asdevs/development/Projects/LinkMaker/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
+            "outputFile": "D:\\Android Projects\\LinkMaker\\Application\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
             "map": [
                 {
-                    "source": "/home/asdevs/.gradle/caches/transforms-2/files-2.1/51ec9767ead7a598d20dd24a7369e6f6/core-1.0.1/res/values-v16/values-v16.xml",
+                    "source": "C:\\Users\\ayant\\.gradle\\caches\\transforms-2\\files-2.1\\8106c9afeb27cc0c50f85995740f877c\\core-1.3.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/home/asdevs/.gradle/caches/transforms-2/files-2.1/7805427e3445d32c2ff10acb510a061d/appcompat-1.0.2/res/values-v16/values-v16.xml",
+                    "source": "C:\\Users\\ayant\\.gradle\\caches\\transforms-2\\files-2.1\\e46f3e16fd8948e8e4c48c913cb404d3\\appcompat-1.1.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
