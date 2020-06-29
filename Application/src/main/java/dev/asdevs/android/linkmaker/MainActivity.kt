@@ -15,7 +15,6 @@
  */
 package dev.asdevs.android.linkmaker
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -23,7 +22,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -32,7 +31,7 @@ import com.google.android.gms.ads.MobileAds
  * Provides the landing screen of this sample. There is nothing particularly interesting here. All
  * the codes related to the Direct Share feature are in [].
  */
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var prefName: String
     private lateinit var sharedPref: SharedPreferences
 
@@ -44,7 +43,9 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
-        setActionBar(findViewById<View>(R.id.toolbar) as Toolbar)
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         mEditBody = findViewById(R.id.body)
         mEditAffiliateId = findViewById(R.id.affiliateId)
 
