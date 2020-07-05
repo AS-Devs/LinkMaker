@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Application/Application.iml" filepath="$PROJECT_DIR$/Application/Application.iml" group="LinkMaker/Application" />
-      <module fileurl="file://$PROJECT_DIR$/LinkMaker.iml" filepath="$PROJECT_DIR$/LinkMaker.iml" group="LinkMaker" />
+      <module fileurl="file://$PROJECT_DIR$/LinkMaker.iml" filepath="$PROJECT_DIR$/LinkMaker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Application/LinkMaker.Application.iml" filepath="$PROJECT_DIR$/.idea/modules/Application/LinkMaker.Application.iml" />
     </modules>
   </component>
 </project>

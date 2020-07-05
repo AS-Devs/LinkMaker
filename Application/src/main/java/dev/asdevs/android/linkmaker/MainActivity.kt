@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2020 The AS Developers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,23 @@ package dev.asdevs.android.linkmaker
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.webkit.URLUtil
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.dynamiclinks.ShortDynamicLink
+import com.google.firebase.dynamiclinks.ktx.*
+import com.google.firebase.ktx.Firebase
+import java.net.URL
+import java.net.URLDecoder
+
 
 /**
  * Provides the landing screen of this sample. There is nothing particularly interesting here. All
@@ -37,13 +46,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mEditBody: EditText
     private lateinit var mEditAffiliateId: EditText
-    private var myAffid: String = ""
+    private var myAffid: String = "svchost96"
     private lateinit var mAdView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
-        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         mEditBody = findViewById(R.id.body)
@@ -52,16 +61,18 @@ class MainActivity : AppCompatActivity() {
         prefName = getString(R.string.affiliate_id)
         sharedPref = getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
+        findViewById<View>(R.id.saveAffid).setOnClickListener(saveAffiliateId)
         findViewById<View>(R.id.share).setOnClickListener(mOnClickListener)
         findViewById<View>(R.id.clrbtn1).setOnClickListener(mOnClickClear)
+
+        MobileAds.initialize(this) {}
         mAdView = findViewById(R.id.adViewPage1)
-        MobileAds.initialize(this, "ca-app-pub-3774806131455333~4164055925")
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 
         // Get Affiliate id from Shared Pref
         if (sharedPref.contains(prefName)) {
-            myAffid = sharedPref.getString(prefName, "").toString()
+            myAffid = sharedPref.getString(prefName, myAffid).toString()
             mEditAffiliateId.setText(myAffid)
         }
 
@@ -92,8 +103,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "It's Already an Affiliate Link", Toast.LENGTH_LONG).show()
                     mEditBody.text.clear()
                 } else {
-                    saveAffiliateId()
-                    genrateLink()
+                    generateAffiliateLinkForFlipkart()
                 }
             } else {
                 Toast.makeText(this@MainActivity, "This Field Can't be Empty", Toast.LENGTH_LONG).show()
@@ -104,37 +114,37 @@ class MainActivity : AppCompatActivity() {
     /**
      * Link genrator Function
      */
-    private fun genrateLink() {
+    private fun generateAffiliateLinkForFlipkart() {
+        val onlyText =  mEditBody.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
+        val theURL =  mEditBody.text.toString().removePrefix(onlyText[0])
         val newLink: String
-        if (mEditBody.text.toString().contains("http://dl.flipkart.com/dl/") || mEditBody.text.toString().contains("https://www.flipkart.com/")) {
-            if (mEditBody.text.toString().contains("&cmpid=product.share.pp")) {
-                newLink = mEditBody.text.toString().replace("&cmpid=product.share.pp", "")
-                mEditBody.setText(newLink)
-                if (mEditAffiliateId.text.isNotEmpty()) {
-                    mEditBody.text.append("&affid=").append(mEditAffiliateId.text.toString())
-                    share()
+        if (theURL.contains("http://dl.flipkart.com/dl/") || theURL.contains("https://www.flipkart.com/")) {
+            if (theURL.endsWith("&cmpid=product.share.pp")) {
+                val afterReplaceLink = theURL.removeSuffix("&cmpid=product.share.pp")
+                if (mEditAffiliateId.text.isNotBlank()) {
+                    newLink = afterReplaceLink.plus("&affid="+ mEditAffiliateId.text.toString())
+                    createShortLink(newLink, onlyText[0])
                 } else {
-                    mEditBody.text.append("&").append(myAffid)
-                    share()
+                    newLink = afterReplaceLink.plus("&affid="+ myAffid)
+                    createShortLink(newLink, onlyText[0])
                 }
             } else {
-                newLink = mEditBody.text.toString().replace("https://www.flipkart.com/", "http://dl.flipkart.com/dl/")
-                mEditBody.setText(newLink)
-                if (mEditBody.text.toString().contains("?")) {
-                    if (mEditAffiliateId.text.isNotEmpty()) {
-                        mEditBody.text.append("&affid=").append(mEditAffiliateId.text.toString())
-                        share()
+                val afterReplaceLink = theURL.replace("https://www.flipkart.com/", "http://dl.flipkart.com/dl/")
+                if (afterReplaceLink.contains("?")) {
+                    if (mEditAffiliateId.text.isNotBlank()) {
+                        newLink = afterReplaceLink.plus("&affid="+ mEditAffiliateId.text.toString())
+                        createShortLink(newLink, onlyText[0])
                     } else {
-                        mEditBody.text.append("&").append(myAffid)
-                        share()
+                        newLink = afterReplaceLink.plus("&affid="+ myAffid)
+                        createShortLink(newLink, onlyText[0])
                     }
                 } else {
-                    if (mEditAffiliateId.text.isNotEmpty()) {
-                        mEditBody.text.append("?affid=").append(mEditAffiliateId.text.toString())
-                        share()
+                    if (mEditAffiliateId.text.isNotBlank()) {
+                        newLink = afterReplaceLink.plus("?affid="+ mEditAffiliateId.text.toString())
+                        createShortLink(newLink, onlyText[0])
                     } else {
-                        mEditBody.text.append("?").append(myAffid)
-                        share()
+                        newLink = afterReplaceLink.plus("?affid="+ myAffid)
+                        createShortLink(newLink, onlyText[0])
                     }
                 }
             }
@@ -145,16 +155,50 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * Before Share Create Short Link
+     */
+    private fun createShortLink(newLink: String, linkTitle:String) {
+        val dynamicLink = Firebase.dynamicLinks.dynamicLink {
+            link = Uri.parse(newLink)
+            domainUriPrefix = "https://asdevs.dev/afflink"
+            androidParameters {
+                minimumVersion = 6
+            }
+            socialMetaTagParameters {
+                title = linkTitle
+                description = "Short Link For Affiliate Link .\nCopyright (C) 2020. AS Developers "
+            }
+        }
+        val url = URL(URLDecoder.decode(dynamicLink.uri.toString(), "UTF-8"))
+        mEditBody.setText(url.toString())
+        shortenLongLink(url.toString())
+
+    }
+
+    private fun shortenLongLink(link: String) {
+        val shortLinkTask = Firebase.dynamicLinks.shortLinkAsync {
+            longLink = Uri.parse(link)
+        }.addOnSuccessListener { result ->
+            val shortLink = result.shortLink
+            mEditBody.setText(shortLink.toString())
+            share(shortLink)
+        }.addOnFailureListener {
+            print("Firebase Link Generation Failed")
+            share(Uri.parse(link))
+        }
+    }
+
+    /**
      * Emits a sample share [Intent].
      */
-    private fun share() {
+    private fun share(value: Uri?) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, mEditBody.text.toString())
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, value.toString())
         startActivity(Intent.createChooser(sharingIntent, getString(R.string.send_intent_title)))
     }
 
-    private fun saveAffiliateId() {
+    private val saveAffiliateId = View.OnClickListener {
         if (mEditAffiliateId.text.isNotEmpty() && mEditAffiliateId.text.isNotBlank()) {
             val editor = sharedPref.edit()
             editor.putString(prefName, mEditAffiliateId.text.toString())
@@ -162,3 +206,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
