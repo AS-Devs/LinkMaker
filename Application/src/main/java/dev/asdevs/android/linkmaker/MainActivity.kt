@@ -22,22 +22,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.webkit.URLUtil
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.google.firebase.dynamiclinks.ShortDynamicLink
-import com.google.firebase.dynamiclinks.ktx.*
-import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
-import java.net.URLDecoder
 
 
 /**
@@ -49,7 +45,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPref: SharedPreferences
 
     private lateinit var mEditBody: EditText
+    private lateinit var mEdit2gud: EditText
     private lateinit var mEditAffiliateId: EditText
+    private lateinit var check1: CheckBox
+    private lateinit var check2: CheckBox
+    private var sLink: Boolean = true
     private var myAffid: String = "svchost96"
     private lateinit var mAdView: AdView
 
@@ -62,8 +62,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         mEditBody = findViewById(R.id.body)
+        mEdit2gud = findViewById(R.id.body2)
         mEditAffiliateId = findViewById(R.id.affiliateId)
-
+        //CheckBox init
+        check1 = findViewById(R.id.check1)
+        check2 = findViewById(R.id.check2)
+        check1.isChecked = true
+        check2.isChecked = false
+        //Pref shared
         prefName = getString(R.string.affiliate_id)
         sharedPref = getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
@@ -73,6 +79,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.saveAffid).setOnClickListener(saveAffiliateId)
         findViewById<View>(R.id.share).setOnClickListener(mOnClickListener)
         findViewById<View>(R.id.clrbtn1).setOnClickListener(mOnClickClear)
+        findViewById<View>(R.id.clrbtn2).setOnClickListener(mOnClickClear2)
+        findViewById<View>(R.id.share2).setOnClickListener(mOnClickListener2)
+        findViewById<View>(R.id.check1).setOnClickListener(mOnCheck)
+        findViewById<View>(R.id.check2).setOnClickListener(mOnCheck2)
 
         MobileAds.initialize(this) {}
         mAdView = findViewById(R.id.adViewPage1)
@@ -94,16 +104,23 @@ class MainActivity : AppCompatActivity() {
                 val receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT)
                 if (receivedText!!.contains("flipkart.com")) {
                     mEditBody.setText(receivedText)
-                } else {
-                    Toast.makeText(applicationContext, "Invalid Link! Try a valid flipkart link.", Toast.LENGTH_LONG).show()
+                } else if(receivedText!!.contains("2gud.com")) {
+                    mEdit2gud.setText(receivedText)
                 }
             }
         }
     }
-
+    private val mOnCheck = View.OnClickListener {
+        sLink = check1.isChecked
+    }
+    private val mOnCheck2 = View.OnClickListener {
+        sLink = check2.isChecked
+    }
     private val mOnClickClear = View.OnClickListener {
         mEditBody.text.clear()
-        mEditAffiliateId.text.clear()
+    }
+    private val mOnClickClear2 = View.OnClickListener {
+        mEdit2gud.text.clear()
     }
     private val mOnClickListener = View.OnClickListener { v ->
         when (v.id) {
@@ -119,6 +136,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private val mOnClickListener2 = View.OnClickListener { v ->
+        when (v.id) {
+            R.id.share2 -> if (mEdit2gud.text.isNotEmpty()) {
+                if (mEdit2gud.text.toString().contains("affid=")) {
+                    Toast.makeText(this@MainActivity, "It's Already an Affiliate Link", Toast.LENGTH_LONG).show()
+                    mEdit2gud.text.clear()
+                } else {
+                    generateAffiliateLinkFor2Gud()
+                }
+            } else {
+                Toast.makeText(this@MainActivity, "This Field Can't be Empty", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     /**
      * Link genrator Function
@@ -126,63 +157,79 @@ class MainActivity : AppCompatActivity() {
     private fun generateAffiliateLinkForFlipkart() {
         val onlyText = mEditBody.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
         val theURL = mEditBody.text.toString().removePrefix(onlyText[0])
-        val newLink: String
+
         if (theURL.contains("http://dl.flipkart.com/dl/") || theURL.contains("https://www.flipkart.com/")) {
             if (theURL.endsWith("&cmpid=product.share.pp")) {
                 val afterReplaceLink = theURL.removeSuffix("&cmpid=product.share.pp")
-                if (mEditAffiliateId.text.isNotBlank()) {
-                    newLink = afterReplaceLink.plus("&affid=" + mEditAffiliateId.text.toString())
-                    createShortLink(newLink/*, onlyText[0]*/)
-                } else {
-                    newLink = afterReplaceLink.plus("&affid=" + myAffid)
-                    createShortLink(newLink/*, onlyText[0]*/)
-                }
+                setAffid(afterReplaceLink)
             } else {
                 val afterReplaceLink = theURL.replace("https://www.flipkart.com/", "http://dl.flipkart.com/dl/")
-                if (afterReplaceLink.contains("?")) {
-                    if (mEditAffiliateId.text.isNotBlank()) {
-                        newLink = afterReplaceLink.plus("&affid=" + mEditAffiliateId.text.toString())
-                        createShortLink(newLink/*, onlyText[0]*/)
-                    } else {
-                        newLink = afterReplaceLink.plus("&affid=" + myAffid)
-                        createShortLink(newLink/*, onlyText[0]*/)
-                    }
-                } else {
-                    if (mEditAffiliateId.text.isNotBlank()) {
-                        newLink = afterReplaceLink.plus("?affid=" + mEditAffiliateId.text.toString())
-                        createShortLink(newLink/*, onlyText[0]*/)
-                    } else {
-                        newLink = afterReplaceLink.plus("?affid=" + myAffid)
-                        createShortLink(newLink/*, onlyText[0]*/)
-                    }
-                }
+                setAffid(afterReplaceLink)
             }
         } else {
             Toast.makeText(this@MainActivity, "It's not a valid Flipkart URL", Toast.LENGTH_LONG).show()
             mEditBody.text.clear()
         }
     }
+    /**
+     * 2GUd Link Generation
+     */
+    private fun generateAffiliateLinkFor2Gud() {
+        val onlyText = mEdit2gud.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
+        val theURL = mEdit2gud.text.toString().removePrefix(onlyText[0])
+
+        if (theURL.contains("http://dl.2gud.com/dl/") || theURL.contains("https://www.2gud.com/")) {
+            if (theURL.endsWith("&cmpid=product.share.pp")) {
+                val afterReplaceLink = theURL.removeSuffix("&cmpid=product.share.pp")
+                setAffid(afterReplaceLink)
+            } else {
+                setAffid(theURL)
+            }
+        } else {
+            Toast.makeText(this@MainActivity, "It's not a valid 2Gud URL", Toast.LENGTH_LONG).show()
+            mEdit2gud.text.clear()
+        }
+    }
+
+    /**
+     * Myaffiliate id or other checking
+     */
+    private fun setAffid(afterReplaceLink: String) {
+        val newLink: String
+        if (afterReplaceLink.contains("?")) {
+            if (mEditAffiliateId.text.isNotBlank()) {
+                newLink = afterReplaceLink.plus("&affid=" + mEditAffiliateId.text.toString())
+                when(sLink){
+                    true -> createShortLink(newLink)
+                    false -> share(newLink)
+                }
+            } else {
+                newLink = afterReplaceLink.plus("&affid=" + myAffid)
+                when(sLink){
+                    true -> createShortLink(newLink)
+                    false -> share(newLink)
+                }
+            }
+        }else{
+            if (mEditAffiliateId.text.isNotBlank()) {
+                newLink = afterReplaceLink.plus("?affid=" + mEditAffiliateId.text.toString())
+                when(sLink){
+                    true -> createShortLink(newLink)
+                    false -> share(newLink)
+                }
+            } else {
+                newLink = afterReplaceLink.plus("?affid=" + myAffid)
+                when(sLink){
+                    true -> createShortLink(newLink)
+                    false -> share(newLink)
+                }
+            }
+        }
+    }
 
     /**
      * Before Share Create Short Link
      */
-    private fun createShortLink(newLink: String, linkTitle: String) {
-        val dynamicLink = Firebase.dynamicLinks.dynamicLink {
-            link = Uri.parse(newLink)
-            domainUriPrefix = "https://asdevs.dev/afflink"
-            androidParameters {
-                minimumVersion = 6
-            }
-            socialMetaTagParameters {
-                title = linkTitle
-                description = "Short Link For Affiliate Link .\nCopyright (C) 2020. AS Developers "
-            }
-        }
-        val url = URL(URLDecoder.decode(dynamicLink.uri.toString(), "UTF-8"))
-        mEditBody.setText(url.toString())
-        shortenLongLink(url.toString())
-
-    }
 
     private fun createShortLink(link: String) {
         val url = ShortUrlPost(link)
@@ -198,8 +245,7 @@ class MainActivity : AppCompatActivity() {
                     val resBody = response.body()
                     val shortLink = "https://rel.ink/${resBody?.hashid}"
                     mEditBody.setText(shortLink)
-                    share(Uri.parse(shortLink))
-                    //Log.i("ShortLink", "https://rel.ink/${resBody?.hashid}")
+                    share(shortLink)
                 } else {
                     Log.i("ShortLink", "Error: ${response.code()} : ${response.message()}")
                     Toast.makeText(this@MainActivity, "Short Link Generation Failed", Toast.LENGTH_SHORT).show()
@@ -208,26 +254,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun shortenLongLink(link: String) {
-        val shortLinkTask = Firebase.dynamicLinks.shortLinkAsync {
-            longLink = Uri.parse(link)
-        }.addOnSuccessListener { result ->
-            val shortLink = result.shortLink
-            mEditBody.setText(shortLink.toString())
-            share(shortLink)
-        }.addOnFailureListener {
-            print("Firebase Link Generation Failed")
-            share(Uri.parse(link))
-        }
-    }
-
     /**
      * Emits a sample share [Intent].
      */
-    private fun share(value: Uri?) {
+    private fun share(value: String) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, value.toString())
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, value)
         startActivity(Intent.createChooser(sharingIntent, getString(R.string.send_intent_title)))
     }
 
