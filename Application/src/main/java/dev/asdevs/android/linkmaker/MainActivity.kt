@@ -20,6 +20,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.URLUtil
 import android.widget.EditText
@@ -32,6 +33,9 @@ import com.google.android.gms.ads.MobileAds
 import com.google.firebase.dynamiclinks.ShortDynamicLink
 import com.google.firebase.dynamiclinks.ktx.*
 import com.google.firebase.ktx.Firebase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.net.URL
 import java.net.URLDecoder
 
@@ -49,6 +53,8 @@ class MainActivity : AppCompatActivity() {
     private var myAffid: String = "svchost96"
     private lateinit var mAdView: AdView
 
+    private lateinit var shortLinkService: RetroFitClient.ShortLink
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -60,6 +66,9 @@ class MainActivity : AppCompatActivity() {
 
         prefName = getString(R.string.affiliate_id)
         sharedPref = getSharedPreferences(prefName, Context.MODE_PRIVATE)
+
+        // Short Link API Call Initialization
+        shortLinkService = RetroFitClient.getRetrofitInstance().create(RetroFitClient.ShortLink::class.java)
 
         findViewById<View>(R.id.saveAffid).setOnClickListener(saveAffiliateId)
         findViewById<View>(R.id.share).setOnClickListener(mOnClickListener)
@@ -115,36 +124,36 @@ class MainActivity : AppCompatActivity() {
      * Link genrator Function
      */
     private fun generateAffiliateLinkForFlipkart() {
-        val onlyText =  mEditBody.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
-        val theURL =  mEditBody.text.toString().removePrefix(onlyText[0])
+        val onlyText = mEditBody.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
+        val theURL = mEditBody.text.toString().removePrefix(onlyText[0])
         val newLink: String
         if (theURL.contains("http://dl.flipkart.com/dl/") || theURL.contains("https://www.flipkart.com/")) {
             if (theURL.endsWith("&cmpid=product.share.pp")) {
                 val afterReplaceLink = theURL.removeSuffix("&cmpid=product.share.pp")
                 if (mEditAffiliateId.text.isNotBlank()) {
-                    newLink = afterReplaceLink.plus("&affid="+ mEditAffiliateId.text.toString())
-                    createShortLink(newLink, onlyText[0])
+                    newLink = afterReplaceLink.plus("&affid=" + mEditAffiliateId.text.toString())
+                    createShortLink(newLink/*, onlyText[0]*/)
                 } else {
-                    newLink = afterReplaceLink.plus("&affid="+ myAffid)
-                    createShortLink(newLink, onlyText[0])
+                    newLink = afterReplaceLink.plus("&affid=" + myAffid)
+                    createShortLink(newLink/*, onlyText[0]*/)
                 }
             } else {
                 val afterReplaceLink = theURL.replace("https://www.flipkart.com/", "http://dl.flipkart.com/dl/")
                 if (afterReplaceLink.contains("?")) {
                     if (mEditAffiliateId.text.isNotBlank()) {
-                        newLink = afterReplaceLink.plus("&affid="+ mEditAffiliateId.text.toString())
-                        createShortLink(newLink, onlyText[0])
+                        newLink = afterReplaceLink.plus("&affid=" + mEditAffiliateId.text.toString())
+                        createShortLink(newLink/*, onlyText[0]*/)
                     } else {
-                        newLink = afterReplaceLink.plus("&affid="+ myAffid)
-                        createShortLink(newLink, onlyText[0])
+                        newLink = afterReplaceLink.plus("&affid=" + myAffid)
+                        createShortLink(newLink/*, onlyText[0]*/)
                     }
                 } else {
                     if (mEditAffiliateId.text.isNotBlank()) {
-                        newLink = afterReplaceLink.plus("?affid="+ mEditAffiliateId.text.toString())
-                        createShortLink(newLink, onlyText[0])
+                        newLink = afterReplaceLink.plus("?affid=" + mEditAffiliateId.text.toString())
+                        createShortLink(newLink/*, onlyText[0]*/)
                     } else {
-                        newLink = afterReplaceLink.plus("?affid="+ myAffid)
-                        createShortLink(newLink, onlyText[0])
+                        newLink = afterReplaceLink.plus("?affid=" + myAffid)
+                        createShortLink(newLink/*, onlyText[0]*/)
                     }
                 }
             }
@@ -157,7 +166,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Before Share Create Short Link
      */
-    private fun createShortLink(newLink: String, linkTitle:String) {
+    private fun createShortLink(newLink: String, linkTitle: String) {
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse(newLink)
             domainUriPrefix = "https://asdevs.dev/afflink"
@@ -173,6 +182,30 @@ class MainActivity : AppCompatActivity() {
         mEditBody.setText(url.toString())
         shortenLongLink(url.toString())
 
+    }
+
+    private fun createShortLink(link: String) {
+        val url = ShortUrlPost(link)
+        val call: Call<ShortLinkResponse> = shortLinkService.getShortLink(url)
+        call.enqueue(object : Callback<ShortLinkResponse> {
+            override fun onFailure(call: Call<ShortLinkResponse>, t: Throwable) {
+                println(t.message)
+                Toast.makeText(this@MainActivity, "Short Link Generation Failed", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<ShortLinkResponse>, response: Response<ShortLinkResponse>) {
+                if (response.code() == 200 || response.code() == 201) {
+                    val resBody = response.body()
+                    val shortLink = "https://rel.ink/${resBody?.hashid}"
+                    mEditBody.setText(shortLink)
+                    share(Uri.parse(shortLink))
+                    //Log.i("ShortLink", "https://rel.ink/${resBody?.hashid}")
+                } else {
+                    Log.i("ShortLink", "Error: ${response.code()} : ${response.message()}")
+                    Toast.makeText(this@MainActivity, "Short Link Generation Failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     private fun shortenLongLink(link: String) {
