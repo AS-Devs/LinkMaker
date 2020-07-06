@@ -100,7 +100,6 @@ output.json
 # Generated files
 
 # Gradle files
-.gradle/
 
 # Signing files
 .signing/
