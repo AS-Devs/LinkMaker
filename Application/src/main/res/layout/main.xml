@@ -277,7 +277,7 @@
     </ScrollView>
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewPage1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:isScrollContainer="true"
         ads:adSize="SMART_BANNER"
@@ -285,7 +285,6 @@
         ads:layout_constrainedWidth="false"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintVertical_bias="0.831" />
+        ads:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
