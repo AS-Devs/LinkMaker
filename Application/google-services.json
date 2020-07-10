@@ -1,0 +1,57 @@
+{
+  "project_info": {
+    "project_number": "938205238566",
+    "firebase_url": "https://link-maker-2308.firebaseio.com",
+    "project_id": "link-maker-2308",
+    "storage_bucket": "link-maker-2308.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938205238566:android:4b784922a4ca37ecde9de7",
+        "android_client_info": {
+          "package_name": "dev.asdevs.android.linkmaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938205238566-9f76gmdv6vg5jjqqhk65t8piq2njgp6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.asdevs.android.linkmaker",
+            "certificate_hash": "188f551b52f8d48c050806b3972844765e7e0b7a"
+          }
+        },
+        {
+          "client_id": "938205238566-h8npfra46djnorb21n7b10e7tk50v5ne.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.asdevs.android.linkmaker",
+            "certificate_hash": "c86e41ede1af0f12494bde930cdfb93aca605763"
+          }
+        },
+        {
+          "client_id": "938205238566-qa9idr9t318ih2mosmhvln93utg90cb8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8PioMfnNvT_85MlR6EGK-yIxSKuH8wrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938205238566-qa9idr9t318ih2mosmhvln93utg90cb8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-3774806131455333~4164055925"
+    }
+  ],
+  "configuration_version": "1"
+}

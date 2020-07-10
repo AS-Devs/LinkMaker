@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
- Copyright 2015 The Android Open Source Project
+ Copyright (C) 2020 The AS Developers
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
+        android:background="@color/primary_text"
         android:elevation="8dp"
         android:minHeight="?android:attr/actionBarSize"
         android:popupTheme="@android:style/ThemeOverlay.Material.Light"
@@ -37,137 +37,254 @@
         <TextView
             android:id="@+id/toolbar_title"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:text="@string/app_name" />
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/explanation"
-        android:textAppearance="@android:style/TextAppearance.Material.Body1"
-        ads:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout_editor_absoluteX="24dp" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginVertical="50dp"
-        android:background="@color/divider"
-        ads:layout_constrainedHeight="false"
-        ads:layout_constrainedWidth="false"
-        ads:layout_constraintBottom_toTopOf="@+id/grid1"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toBottomOf="@+id/textView" />
+        ads:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/grid1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        ads:layout_constraintBottom_toTopOf="@+id/flipkart_text_layout"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toBottomOf="@+id/textView">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/affid_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="3"
-            android:importantForAutofill="yesExcludeDescendants"
-            ads:boxStrokeColor="@color/accent"
-            ads:hintTextColor="@color/accent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/affiliateId"
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/affiliateId"
-                android:textCursorDrawable="@null" />
+                android:layout_margin="16dp"
+                android:text="@string/explanation"
+                android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                ads:layout_constraintTop_toTopOf="@+id/ScrollView"
+                tools:layout_editor_absoluteX="24dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/SupportAffiliate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/support"
+                android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/saveAffid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            ads:backgroundTint="@color/accent" />
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="16dp"
+                android:background="@color/divider"
+                ads:layout_constrainedHeight="false"
+                ads:layout_constrainedWidth="false"
+                ads:layout_constraintBottom_toTopOf="@+id/grid1"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/SupportAffiliate" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/grid1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                ads:layout_constraintBottom_toTopOf="@+id/flipkart_text_layout"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/view">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/flipkart_text_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:importantForAutofill="no"
-        ads:boxStrokeColor="@color/accent"
-        ads:hintTextColor="@color/accent"
-        ads:layout_constraintBottom_toTopOf="@+id/share"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toBottomOf="@id/grid1">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/affid_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="3"
+                    android:importantForAutofill="yesExcludeDescendants"
+                    ads:boxStrokeColor="@color/accent"
+                    ads:hintTextColor="@color/accent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:allowUndo="true"
-            android:autoLink="web|phone"
-            android:hint="@string/text_to_share"
-            android:inputType="textUri"
-            android:textCursorDrawable="@null" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/affiliateId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/affiliateId"
+                        android:textCursorDrawable="@null" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveAffid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"
+                    ads:backgroundTint="@color/accent" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/flipkart_text_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:importantForAutofill="no"
+                ads:boxStrokeColor="@color/accent"
+                ads:hintTextColor="@color/accent"
+                ads:layout_constraintBottom_toTopOf="@+id/share"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@id/grid1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:allowUndo="true"
+                    android:autoLink="web|phone"
+                    android:hint="@string/text_to_share"
+                    android:inputType="textUri"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clrbtn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/clear"
+                ads:backgroundTint="@color/accent"
+                ads:layout_constraintEnd_toStartOf="@+id/share"
+                ads:layout_constraintTop_toBottomOf="@+id/flipkart_text_layout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="16dp"
+                android:baselineAligned="false"
+                android:text="@string/share"
+                ads:backgroundTint="@color/accent"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/flipkart_text_layout" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="16dp"
+                android:background="@color/divider"
+                ads:layout_constrainedHeight="false"
+                ads:layout_constrainedWidth="false"
+                ads:layout_constraintBottom_toTopOf="@+id/gud_text_layout"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/share" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/gud_text_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:importantForAutofill="no"
+                ads:boxStrokeColor="@color/primary"
+                ads:hintTextColor="@color/primary"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@id/share">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:allowUndo="true"
+                    android:autoLink="web|phone"
+                    android:hint="@string/hind_text_2gud"
+                    android:inputType="textUri"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clrbtn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/clear"
+                ads:backgroundTint="@color/primary"
+                ads:layout_constraintEnd_toStartOf="@+id/share"
+                ads:layout_constraintTop_toBottomOf="@+id/gud_text_layout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/share2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="16dp"
+                android:baselineAligned="false"
+                android:text="@string/share"
+                ads:backgroundTint="@color/primary"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/gud_text_layout" />
+
+            <CheckBox
+                android:id="@+id/check1"
+                style="@android:style/Widget.Material.CompoundButton.CheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="56dp"
+                android:buttonTint="@color/accent"
+                android:checked="true"
+                android:text="@string/checkText"
+                ads:layout_constraintEnd_toStartOf="@+id/clrbtn1"
+                ads:layout_constraintHorizontal_bias="0.307"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/flipkart_text_layout" />
+
+            <CheckBox
+                android:id="@+id/check2"
+                style="@android:style/Widget.Material.CompoundButton.CheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="56dp"
+                android:buttonTint="@color/primary"
+                android:checked="false"
+                android:text="@string/checkText"
+                ads:layout_constraintEnd_toStartOf="@+id/clrbtn2"
+                ads:layout_constraintHorizontal_bias="0.307"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/gud_text_layout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewPage1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:isScrollContainer="false"
+        android:isScrollContainer="true"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-3774806131455333/5066074058"
         ads:layout_constrainedWidth="false"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintHorizontal_bias="1.0"
         ads:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/clrbtn1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/clear"
-        ads:backgroundTint="@color/accent"
-        ads:layout_constraintEnd_toStartOf="@+id/share"
-        ads:layout_constraintTop_toBottomOf="@+id/flipkart_text_layout" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_margin="16dp"
-        android:baselineAligned="false"
-        android:text="@string/share"
-        ads:backgroundTint="@color/accent"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintTop_toBottomOf="@+id/flipkart_text_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
