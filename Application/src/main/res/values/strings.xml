@@ -19,9 +19,9 @@
     <!-- MainActivity -->
 
     <string name="explanation">
-    This app helps affiliate members to paste the product link to generate their own Affiliate Links and directly share to any app to the customer.
+    This app helps affiliate members to generate their own Affiliate Links and directly share to any app to the customer.
     </string>
-    <string name="support">It only support <b>Flipkart and 2Gud Affiliate Members</b></string>
+    <string name="support"><b>It now support Flipkart, 2Gud &amp; Amazon Affiliate Links</b></string>
     <string name="share">Share</string>
     <string name="checkText">Short Link</string>
     <string name="send_intent_title">Send a message via:</string>
@@ -34,9 +34,11 @@
     <string name="body">Body:</string>
     <string name="hint_body">Edit your message.</string>
     <string name="message_sent">Sent a message \"%1$s\" to %2$s.</string>
-    <string name="text_to_share">Paste Flipkart Link</string>
-    <string name="hind_text_2gud">Paste 2Gud Link</string>
+    <string name="text_to_share">Enter Flipkart Link</string>
+    <string name="hint_text_2gud">Enter 2Gud Link</string>
+    <string name="hint_text_amazon">Enter Amazon Product Link</string>
     <string name="affiliateId">Affiliate ID</string>
+    <string name="affiliateId2">Amazon Tracking Id</string>
     <string name="clear">Clear</string>
     <string name="save">Save ID</string>
     <string name="short_url">https://rel.ink/</string>

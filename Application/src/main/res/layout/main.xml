@@ -46,10 +46,12 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintBottom_toBottomOf="@+id/adViewPage1"
         ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="1.0"
         ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toBottomOf="@+id/toolbar">
+        ads:layout_constraintTop_toBottomOf="@+id/toolbar"
+        ads:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ScrollView"
@@ -185,13 +187,10 @@
             <View
                 android:id="@+id/line2"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="16dp"
+                android:layout_marginVertical="22dp"
                 android:background="@color/divider"
-                ads:layout_constrainedHeight="false"
-                ads:layout_constrainedWidth="false"
-                ads:layout_constraintBottom_toTopOf="@+id/gud_text_layout"
                 ads:layout_constraintEnd_toEndOf="parent"
                 ads:layout_constraintStart_toStartOf="parent"
                 ads:layout_constraintTop_toBottomOf="@+id/share" />
@@ -207,7 +206,7 @@
                 ads:hintTextColor="@color/primary"
                 ads:layout_constraintEnd_toEndOf="parent"
                 ads:layout_constraintStart_toStartOf="parent"
-                ads:layout_constraintTop_toBottomOf="@id/share">
+                ads:layout_constraintTop_toBottomOf="@id/line2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/body2"
@@ -215,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:allowUndo="true"
                     android:autoLink="web|phone"
-                    android:hint="@string/hind_text_2gud"
+                    android:hint="@string/hint_text_2gud"
                     android:inputType="textUri"
                     android:textCursorDrawable="@null" />
 
@@ -228,7 +227,7 @@
                 android:layout_margin="16dp"
                 android:text="@string/clear"
                 ads:backgroundTint="@color/primary"
-                ads:layout_constraintEnd_toStartOf="@+id/share"
+                ads:layout_constraintEnd_toStartOf="@+id/share2"
                 ads:layout_constraintTop_toBottomOf="@+id/gud_text_layout" />
 
             <com.google.android.material.button.MaterialButton
@@ -272,19 +271,139 @@
                 ads:layout_constraintHorizontal_bias="0.307"
                 ads:layout_constraintStart_toStartOf="parent"
                 ads:layout_constraintTop_toBottomOf="@+id/gud_text_layout" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--            <View-->
+<!--                android:id="@+id/line3"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginVertical="22dp"-->
+<!--                android:background="@color/divider"-->
+<!--                ads:layout_constrainedHeight="false"-->
+<!--                ads:layout_constrainedWidth="false"-->
+<!--                ads:layout_constraintBottom_toTopOf="@+id/grid2"-->
+<!--                ads:layout_constraintEnd_toEndOf="parent"-->
+<!--                ads:layout_constraintStart_toStartOf="parent"-->
+<!--                ads:layout_constraintTop_toBottomOf="@+id/share2" />-->
+
+<!--            <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                android:id="@+id/grid2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                ads:layout_constraintBottom_toTopOf="@+id/amazon_text_layout"-->
+<!--                ads:layout_constraintEnd_toEndOf="parent"-->
+<!--                ads:layout_constraintStart_toStartOf="parent"-->
+<!--                ads:layout_constraintTop_toBottomOf="@+id/line3">-->
+
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/affid_id_input_amazon"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:layout_weight="3"-->
+<!--                    android:importantForAutofill="yesExcludeDescendants"-->
+<!--                    ads:boxStrokeColor="@color/amazon"-->
+<!--                    ads:hintTextColor="@color/amazon">-->
+
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/affiliateId2"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:hint="@string/affiliateId2"-->
+<!--                        android:textCursorDrawable="@null" />-->
+
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/saveAffid2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/save"-->
+<!--                    ads:backgroundTint="@color/amazon" />-->
+
+<!--            </androidx.appcompat.widget.LinearLayoutCompat>-->
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/amazon_text_layout"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:importantForAutofill="no"-->
+<!--                ads:boxStrokeColor="@color/amazon"-->
+<!--                ads:hintTextColor="@color/amazon"-->
+<!--                ads:layout_constraintEnd_toEndOf="parent"-->
+<!--                ads:layout_constraintStart_toStartOf="parent"-->
+<!--                ads:layout_constraintTop_toBottomOf="@id/grid2">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/body3"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:allowUndo="true"-->
+<!--                    android:autoLink="web|phone"-->
+<!--                    android:hint="@string/hint_text_amazon"-->
+<!--                    android:inputType="textUri"-->
+<!--                    android:textCursorDrawable="@null" />-->
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/check3"-->
+<!--                style="@android:style/Widget.Material.CompoundButton.CheckBox"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="56dp"-->
+<!--                android:buttonTint="@color/amazon"-->
+<!--                android:checked="true"-->
+<!--                android:text="@string/checkText"-->
+<!--                ads:layout_constraintEnd_toStartOf="@+id/clrbtn3"-->
+<!--                ads:layout_constraintHorizontal_bias="0.307"-->
+<!--                ads:layout_constraintStart_toStartOf="parent"-->
+<!--                ads:layout_constraintTop_toBottomOf="@+id/amazon_text_layout" />-->
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/clrbtn3"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:text="@string/clear"-->
+<!--                ads:backgroundTint="@color/amazon"-->
+<!--                ads:layout_constraintEnd_toStartOf="@+id/share3"-->
+<!--                ads:layout_constraintTop_toBottomOf="@+id/amazon_text_layout" />-->
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/share3"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:layout_marginBottom="@dimen/huge_gap"-->
+<!--                android:baselineAligned="false"-->
+<!--                android:text="@string/share"-->
+<!--                ads:backgroundTint="@color/amazon"-->
+<!--                ads:layout_constraintBottom_toBottomOf="parent"-->
+<!--                ads:layout_constraintEnd_toEndOf="parent"-->
+<!--                ads:layout_constraintTop_toBottomOf="@+id/amazon_text_layout" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewPage1"
-        android:layout_width="match_parent"
+        android:layout_width="409dp"
         android:layout_height="50dp"
         android:isScrollContainer="true"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-3774806131455333/5066074058"
-        ads:layout_constrainedWidth="false"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

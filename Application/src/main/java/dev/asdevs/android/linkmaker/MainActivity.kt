@@ -66,9 +66,9 @@ class MainActivity : AppCompatActivity() {
         mEditAffiliateId = findViewById(R.id.affiliateId)
         //CheckBox changes
         check1 = findViewById<CheckBox>(R.id.check1)
-        check1.setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked) Toast.makeText(this@MainActivity, "Short Link Activated", Toast.LENGTH_SHORT).show() else Toast.makeText(this@MainActivity, "Short Link Deactivated", Toast.LENGTH_SHORT).show()  }
+        check1.setOnCheckedChangeListener { _, isChecked -> if (isChecked) Toast.makeText(this@MainActivity, "Short Link Activated", Toast.LENGTH_SHORT).show() else Toast.makeText(this@MainActivity, "Short Link Deactivated", Toast.LENGTH_SHORT).show()  }
         check2 = findViewById<CheckBox>(R.id.check2)
-        check2.setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked) Toast.makeText(this@MainActivity, "Short Link Activated", Toast.LENGTH_SHORT).show() else Toast.makeText(this@MainActivity, "Short Link Deactivated", Toast.LENGTH_SHORT).show()  }
+        check2.setOnCheckedChangeListener { _, isChecked -> if (isChecked) Toast.makeText(this@MainActivity, "Short Link Activated", Toast.LENGTH_SHORT).show() else Toast.makeText(this@MainActivity, "Short Link Deactivated", Toast.LENGTH_SHORT).show()  }
 
         //Pref shared
         prefName = getString(R.string.affiliate_id)
@@ -105,6 +105,10 @@ class MainActivity : AppCompatActivity() {
                     mEditBody.setText(receivedText)
                 } else if(receivedText.contains("2gud.com")) {
                     mEdit2gud.setText(receivedText)
+                }
+                if (sharedPref.contains(prefName)) {
+                    myAffid = sharedPref.getString(prefName, myAffid).toString()
+                    mEditAffiliateId.setText(myAffid)
                 }
             }
         }
@@ -152,12 +156,12 @@ class MainActivity : AppCompatActivity() {
         val onlyText = mEditBody.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
         val theURL = mEditBody.text.toString().removePrefix(onlyText[0])
 
-        if (theURL.contains("http://dl.flipkart.com/dl/") || theURL.contains("https://www.flipkart.com/")) {
+        if (theURL.contains("dl.flipkart.com/dl/") || theURL.contains("www.flipkart.com/")) {
             if (theURL.endsWith("&cmpid=product.share.pp")) {
                 val afterReplaceLink = theURL.removeSuffix("&cmpid=product.share.pp")
                 setAffid(afterReplaceLink, AFF.FLIP)
             } else {
-                val afterReplaceLink = theURL.replace("https://www.flipkart.com/", "http://dl.flipkart.com/dl/")
+                val afterReplaceLink = theURL.replace("https://www.flipkart.com/", "https://dl.flipkart.com/dl/")
                 setAffid(afterReplaceLink, AFF.FLIP)
             }
         } else {
@@ -172,7 +176,7 @@ class MainActivity : AppCompatActivity() {
         val onlyText = mEdit2gud.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
         val theURL = mEdit2gud.text.toString().removePrefix(onlyText[0])
 
-        if (theURL.contains("http://dl.2gud.com/dl/") || theURL.contains("https://www.2gud.com/")) {
+        if (theURL.contains("dl.2gud.com/dl/") || theURL.contains("www.2gud.com/")) {
             if (theURL.endsWith("&cmpid=product.share.pp")) {
                 val afterReplaceLink = theURL.removeSuffix("&cmpid=product.share.pp")
                 setAffid(afterReplaceLink, AFF.ToGud)
