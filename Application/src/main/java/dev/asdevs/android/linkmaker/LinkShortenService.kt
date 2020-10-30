@@ -13,9 +13,7 @@ class ShortUrlPost(var url: String) {
 
 @Keep
 class ShortLinkResponse() {
-    lateinit var hashid: String
-    lateinit var url: String
-    lateinit var created_at: String
+    lateinit var result_url: String
 }
 
 @Keep
@@ -23,7 +21,7 @@ class RetroFitClient {
 
     companion object {
         private lateinit var retrofit: Retrofit
-        private var BASE_URL: String = "https://rel.ink/"
+        private var BASE_URL: String = "https://cleanuri.com/"
 
         fun getRetrofitInstance(): Retrofit {
             retrofit = Retrofit.Builder()
@@ -36,7 +34,7 @@ class RetroFitClient {
 
     @Keep
     interface ShortLink {
-        @POST("api/links/")
-        fun getShortLink(@Body shortLink: ShortUrlPost): Call<ShortLinkResponse>
+        @POST("api/v1/shorten")
+        fun getShortLink(@Body url: ShortUrlPost): Call<ShortLinkResponse>
     }
 }

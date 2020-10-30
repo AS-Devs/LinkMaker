@@ -45,5 +45,6 @@
 
     <!-- Shared Preferences -->
     <string name="affiliate_id">affiliate_id</string>
+    <string name="amazon_id">amazon_tracking_id</string>
 
 </resources>

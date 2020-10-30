@@ -40,17 +40,23 @@ import retrofit2.Response
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var prefName: String
+    private lateinit var pref2Name: String
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var sharedPref2: SharedPreferences
 
     private lateinit var mEditBody: EditText
     private lateinit var mEdit2gud: EditText
+    private lateinit var mEditAmazon: EditText
     private lateinit var mEditAffiliateId: EditText
+    private lateinit var mEditAmazonTrackingId: EditText
     private lateinit var check1: CheckBox
     private lateinit var check2: CheckBox
+    private lateinit var check3: CheckBox
     private enum class AFF{
-        FLIP, ToGud
+        FLIP, ToGud, Amazon
     }
     private var myAffid: String = "svchost96"
+    private var myTrackingId: String = "tricks4everyo-21"
     private lateinit var mAdView: AdView
 
     private lateinit var shortLinkService: RetroFitClient.ShortLink
@@ -63,24 +69,32 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         mEditBody = findViewById(R.id.body)
         mEdit2gud = findViewById(R.id.body2)
+        mEditAmazon = findViewById(R.id.body3)
         mEditAffiliateId = findViewById(R.id.affiliateId)
+        mEditAmazonTrackingId = findViewById(R.id.affiliateId2)
         //CheckBox changes
         check1 = findViewById<CheckBox>(R.id.check1)
         check1.setOnCheckedChangeListener { _, isChecked -> if (isChecked) Toast.makeText(this@MainActivity, "Short Link Activated", Toast.LENGTH_SHORT).show() else Toast.makeText(this@MainActivity, "Short Link Deactivated", Toast.LENGTH_SHORT).show()  }
         check2 = findViewById<CheckBox>(R.id.check2)
         check2.setOnCheckedChangeListener { _, isChecked -> if (isChecked) Toast.makeText(this@MainActivity, "Short Link Activated", Toast.LENGTH_SHORT).show() else Toast.makeText(this@MainActivity, "Short Link Deactivated", Toast.LENGTH_SHORT).show()  }
+        check3 = findViewById<CheckBox>(R.id.check3)
+        check3.setOnCheckedChangeListener { _, isChecked -> if (isChecked) Toast.makeText(this@MainActivity, "Short Link Activated", Toast.LENGTH_SHORT).show() else Toast.makeText(this@MainActivity, "Short Link Deactivated", Toast.LENGTH_SHORT).show()  }
 
         //Pref shared
         prefName = getString(R.string.affiliate_id)
+        pref2Name = getString(R.string.amazon_id)
         sharedPref = getSharedPreferences(prefName, Context.MODE_PRIVATE)
+        sharedPref2 = getSharedPreferences(pref2Name, Context.MODE_PRIVATE)
 
         // Short Link API Call Initialization
         shortLinkService = RetroFitClient.getRetrofitInstance().create(RetroFitClient.ShortLink::class.java)
 
         findViewById<View>(R.id.saveAffid).setOnClickListener(saveAffiliateId)
+        findViewById<View>(R.id.saveAffid2).setOnClickListener(saveAffiliateId2)
         findViewById<View>(R.id.share).setOnClickListener(mOnClickListener)
         findViewById<View>(R.id.clrbtn1).setOnClickListener(mOnClickClear)
         findViewById<View>(R.id.clrbtn2).setOnClickListener(mOnClickClear2)
+        findViewById<View>(R.id.clrbtn3).setOnClickListener(mOnClickClear3)
         findViewById<View>(R.id.share2).setOnClickListener(mOnClickListener2)
 
         MobileAds.initialize(this) {}
@@ -93,6 +107,10 @@ class MainActivity : AppCompatActivity() {
             myAffid = sharedPref.getString(prefName, myAffid).toString()
             mEditAffiliateId.setText(myAffid)
         }
+        else if (sharedPref2.contains(pref2Name)) {
+            myTrackingId = sharedPref2.getString(pref2Name, myTrackingId).toString()
+            mEditAmazonTrackingId.setText(myTrackingId)
+        }
 
         // Get value from intent if available
         val receivedIntent = intent
@@ -101,14 +119,15 @@ class MainActivity : AppCompatActivity() {
         if (receivedAction == Intent.ACTION_SEND) {
             if (receivedType!!.startsWith("text/")) {
                 val receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT)
-                if (receivedText!!.contains("flipkart.com")) {
-                    mEditBody.setText(receivedText)
-                } else if(receivedText.contains("2gud.com")) {
-                    mEdit2gud.setText(receivedText)
-                }
+                if (receivedText!!.contains("flipkart.com")) mEditBody.setText(receivedText)
+                else if(receivedText.contains("2gud.com")) mEdit2gud.setText(receivedText)
+                else if(receivedText.contains("amazon")) mEditAmazon.setText(receivedText)
                 if (sharedPref.contains(prefName)) {
                     myAffid = sharedPref.getString(prefName, myAffid).toString()
                     mEditAffiliateId.setText(myAffid)
+                }else if(sharedPref2.contains((pref2Name))){
+                    myTrackingId = sharedPref2.getString(pref2Name, myTrackingId).toString()
+                    mEditAmazonTrackingId.setText(myTrackingId)
                 }
             }
         }
@@ -119,6 +138,9 @@ class MainActivity : AppCompatActivity() {
     }
     private val mOnClickClear2 = View.OnClickListener {
         mEdit2gud.text.clear()
+    }
+    private val mOnClickClear3 = View.OnClickListener {
+        mEditAmazon.text.clear()
     }
     private val mOnClickListener = View.OnClickListener { v ->
         when (v.id) {
@@ -238,9 +260,10 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ShortLinkResponse>, response: Response<ShortLinkResponse>) {
                 if (response.code() == 200 || response.code() == 201) {
                     val resBody = response.body()
-                    val shortLink = "https://rel.ink/${resBody?.hashid}"
-                    if (source === AFF.FLIP) mEditBody.setText(shortLink) else mEdit2gud.setText(shortLink)
-                    share(shortLink)
+                    if (source === AFF.FLIP) mEditBody.setText(resBody?.result_url) else mEdit2gud.setText(resBody?.result_url)
+                    if (resBody != null) {
+                        share(resBody.result_url)
+                    }
                 } else {
                     Log.i("ShortLink", "Error: ${response.code()} : ${response.message()}")
                     Toast.makeText(this@MainActivity, "Short Link Generation Failed", Toast.LENGTH_SHORT).show()
@@ -263,6 +286,13 @@ class MainActivity : AppCompatActivity() {
         if (mEditAffiliateId.text.isNotEmpty() && mEditAffiliateId.text.isNotBlank()) {
             val editor = sharedPref.edit()
             editor.putString(prefName, mEditAffiliateId.text.toString())
+            editor.apply()
+        }
+    }
+    private val saveAffiliateId2 = View.OnClickListener {
+        if (mEditAmazonTrackingId.text.isNotEmpty() && mEditAmazonTrackingId.text.isNotBlank()) {
+            val editor = sharedPref2.edit()
+            editor.putString(pref2Name, mEditAmazonTrackingId.text.toString())
             editor.apply()
         }
     }
