@@ -17,11 +17,12 @@
 <resources>
 
     <!-- MainActivity -->
+    <string name="app_name">Link Maker</string>
 
     <string name="explanation">
     This app helps affiliate members to generate their own Affiliate Links and directly share to any app to the customer.
     </string>
-    <string name="support"><b>It now support Flipkart, 2Gud &amp; Amazon Affiliate Links</b></string>
+    <string name="support"><b>It now support flipkart, 2Gud &amp; Amazon.in Affiliate Links</b></string>
     <string name="share">Share</string>
     <string name="checkText">Short Link</string>
     <string name="send_intent_title">Send a message via:</string>

@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.clrbtn2).setOnClickListener(mOnClickClear2)
         findViewById<View>(R.id.clrbtn3).setOnClickListener(mOnClickClear3)
         findViewById<View>(R.id.share2).setOnClickListener(mOnClickListener2)
+        findViewById<View>(R.id.share3).setOnClickListener(mOnClickListener3)
 
         MobileAds.initialize(this) {}
         mAdView = findViewById(R.id.adViewPage1)
@@ -170,6 +171,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private val mOnClickListener3 = View.OnClickListener {v ->
+        when(v.id) {
+
+            R.id.share3 -> if (mEditAmazon.text.isNotEmpty()){
+                if (mEditAmazon.text.toString().contains("&tag=")) {
+                    Toast.makeText(this@MainActivity, "It's Already an Affiliate Link", Toast.LENGTH_LONG).show()
+                    mEditAmazon.text.clear()
+                } else {
+                    generateAffiliateLinkForAmazon()
+                }
+            }else{
+                Toast.makeText(this@MainActivity, "This Field Can't be Empty", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 
     /**
      * Link genrator Function
@@ -198,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         val onlyText = mEdit2gud.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
         val theURL = mEdit2gud.text.toString().removePrefix(onlyText[0])
 
-        if (theURL.contains("dl.2gud.com/dl/") || theURL.contains("www.2gud.com/")) {
+        if (theURL.contains("social.2gud.com/") || theURL.contains("www.2gud.com/")) {
             if (theURL.endsWith("&cmpid=product.share.pp")) {
                 val afterReplaceLink = theURL.removeSuffix("&cmpid=product.share.pp")
                 setAffid(afterReplaceLink, AFF.ToGud)
@@ -208,6 +225,47 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this@MainActivity, "It's not a valid 2Gud URL", Toast.LENGTH_LONG).show()
             mEdit2gud.text.clear()
+        }
+    }
+
+    // https://www.amazon.in/gp/product/B07GVR9TG7/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=tricks4everyo-21&linkId=13f6ed490f94f44515f227da76b3ee06&language=en_IN
+    // https://www.amazon.in/Bajaj-Microwave-1701-MT-White/dp/B00F15AFPY/ref=as_li_ss_tl?dchild=1&keywords=microwave&qid=1604251588&sr=8-3&linkCode=ll1&tag=tricks4everyo-21&linkId=876a9a9a7783c8f4e39a12aadbe97978&language=en_IN
+    /**
+     * Amazon Link Generation
+     */
+    private fun generateAffiliateLinkForAmazon() {
+        val onlyText = mEditAmazon.text.toString().split(Regex("(http|https|ftp|ftps)://[a-zA-Z0-9\\-.]+\\.[a-zA-Z]{2,3}(\\S*)?"))
+        val theURL = mEditAmazon.text.toString().removePrefix(onlyText[0])
+
+        if (theURL.contains("amazon.com") || theURL.contains("www.amazon.in")) {
+            val getRef = theURL.split(Regex("ref="))
+
+            if(getRef[1].contains("?")) {
+                val afterReplaceLink = getRef[0].plus("ref=as_li_ss_tl?ie=UTF8")
+                setAffidAmazon(afterReplaceLink, AFF.Amazon)
+
+            }else{
+                val afterReplaceLink = theURL.replace(getRef[1], "as_li_ss_tl?ie=UTF8", ignoreCase = false)
+                setAffidAmazon(afterReplaceLink, AFF.Amazon)
+            }
+
+        } else {
+            Toast.makeText(this@MainActivity, "It's not an Amazon Product URL", Toast.LENGTH_LONG).show()
+            mEditAmazon.text.clear()
+        }
+    }
+    /**
+     * Tracking id and shortLink checking for Amazon
+     */
+    private fun setAffidAmazon(afterReplaceLink: String, source: AFF) {
+        val newLink: String
+
+        newLink = afterReplaceLink.plus("&linkCode=ll1&tag=" + if (mEditAmazonTrackingId.text.isNotBlank()) mEditAmazonTrackingId.text.toString() else myTrackingId + "&language=en_IN")
+        if (source === AFF.Amazon) {
+            when (check3.isChecked) {
+                true -> createShortLink(newLink, AFF.Amazon)
+                false -> share(newLink)
+            }
         }
     }
 
@@ -260,7 +318,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ShortLinkResponse>, response: Response<ShortLinkResponse>) {
                 if (response.code() == 200 || response.code() == 201) {
                     val resBody = response.body()
-                    if (source === AFF.FLIP) mEditBody.setText(resBody?.result_url) else mEdit2gud.setText(resBody?.result_url)
+                    if (source === AFF.FLIP) mEditBody.setText(resBody?.result_url) else if(source === AFF.Amazon) mEditAmazon.setText(resBody?.result_url) else mEdit2gud.setText(resBody?.result_url)
                     if (resBody != null) {
                         share(resBody.result_url)
                     }
